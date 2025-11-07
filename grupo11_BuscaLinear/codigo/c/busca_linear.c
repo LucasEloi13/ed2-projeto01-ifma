@@ -19,27 +19,27 @@
 #define NUM_EXECUCOES 50
 
 /**
- * @brief Implementação do pseudocódigo BETTER-LINEAR-SEARCH[cite: 1].
+ * @brief Implementação do pseudocódigo BETTER-LINEAR-SEARCH.
  * Procura por 'x' no arranjo 'A' de 'n' elementos.
- * @param A O arranjo (vetor)[cite: 1].
- * @param n O número de elementos em A[cite: 1].
- * @param x O valor que buscamos[cite: 1].
- * @return O índice i (0 a n-1) onde A[i] == x, ou -1 (NOT-FOUND)[cite: 1].
+ * @param A O arranjo (vetor)
+ * @param n O número de elementos em A
+ * @param x O valor que buscamos
+ * @return O índice i (0 a n-1) onde A[i] == x, ou -1 (NOT-FOUND).
  */
 int linear_search(int A[], int n, int x) {
-    // 1. Para i = 1 até n: (em C, de 0 até n-1) [cite: 1, 3]
+    // 1. Para i = 1 até n: (em C, de 0 até n-1) 
     for (int i = 0; i < n; i++) {
-        // a. Se A[i] = x, então retorne i. [cite: 1, 3]
+        // a. Se A[i] = x, então retorne i. 
         if (A[i] == x) {
             return i;
         }
     }
-    // 2. Retorne NOT-FOUND (usando -1 como índice inválido) [cite: 1, 3]
+    // 2. Retorne NOT-FOUND (usando -1 como índice inválido) 
     return -1;
 }
 
 /**
- * @brief Lê um vetor de inteiros de um arquivo CSV de linha única[cite: 72].
+ * @brief Lê um vetor de inteiros de um arquivo CSV de linha única.
  * @param filepath O caminho para o arquivo .csv.
  * @param n O tamanho do vetor.
  * @return Um ponteiro para o vetor alocado dinamicamente.
@@ -59,7 +59,7 @@ int* ler_vetor_de_csv(const char* filepath, int n) {
         exit(1);
     }
 
-    // Lê a linha única [cite: 72]
+    // Lê a linha única 
     fgets(line_buffer, MAX_LINE_SIZE, fp);
 
     int index = 0;
@@ -76,7 +76,7 @@ int* ler_vetor_de_csv(const char* filepath, int n) {
 
 /**
  * @brief Gera uma chave de busca aleatória.
- * Com ~50% de chance de sucesso (chave está no vetor) [cite: 84]
+ * Com ~50% de chance de sucesso (chave está no vetor)
  * e ~50% de chance de falha (chave não está no vetor).
  * @param A O arranjo.
  * @param n O tamanho do arranjo.
@@ -130,11 +130,11 @@ double calcular_desvio_padrao(double tempos[], int num_execucoes, double media) 
 }
 
 /**
- * @brief Prepara os diretórios de saída conforme[cite: 93].
+ * @brief Prepara os diretórios de saída conforme.
  */
 void preparar_diretorios_saida() {
     mkdir("resultados", 0755);
-    mkdir("resultados/estatisticas", 0755); // [cite: 93]
+    mkdir("resultados/estatisticas", 0755); 
 }
 
 /**
@@ -146,36 +146,36 @@ int main() {
     
     preparar_diretorios_saida();
 
-    // Abre o arquivo de resultados da linguagem C [cite: 94]
+    // Abre o arquivo de resultados da linguagem C 
     FILE* fp_resultados = fopen("resultados/estatisticas/resultados_C.csv", "w");
     if (fp_resultados == NULL) {
         fprintf(stderr, "Erro: Não foi possível criar o arquivo de resultados.\n");
         return 1;
     }
     
-    // Escreve o cabeçalho do CSV de resultados [cite: 96]
+    // Escreve o cabeçalho do CSV de resultados 
     fprintf(fp_resultados, "n,tempo_ms,desvio\n");
 
     printf("Iniciando experimentos para Busca Linear em C...\n");
 
-    // Loop pelos tamanhos de N (10k, 20k, ..., 100k) [cite: 79]
+    // Loop pelos tamanhos de N (10k, 20k, ..., 100k) 
     for (int n = 10000; n <= 100000; n += 10000) {
         
         double tempos_execucao[NUM_EXECUCOES];
         printf("Processando para N = %d...\n", n);
 
-        // Loop pelas 50 execuções independentes [cite: 77]
+        // Loop pelas 50 execuções independentes 
         for (int run_id = 1; run_id <= NUM_EXECUCOES; run_id++) {
             char filepath[256];
-            // Monta o nome do arquivo de dados (ex: dados/n010000/run_001.csv) [cite: 74-76]
+            // Monta o nome do arquivo de dados (ex: dados/n010000/run_001.csv) 
             sprintf(filepath, "dados/n%06d/run_%03d.csv", n, run_id);
 
             // --- Etapa de Preparação (Tempo NÃO contado) ---
             int* vetor = ler_vetor_de_csv(filepath, n);
-            int chave = gerar_chave_busca(vetor, n); // [cite: 83, 84, 89]
+            int chave = gerar_chave_busca(vetor, n); // 
             
-            // --- Etapa de Medição (Tempo CONTADO) --- [cite: 86, 89]
-            // Usa clock() para medição de tempo de CPU [cite: 92]
+            // --- Etapa de Medição (Tempo CONTADO) --- 
+            // Usa clock() para medição de tempo de CPU 
             clock_t inicio = clock();
             
             linear_search(vetor, n, chave); // Executa o algoritmo
@@ -195,7 +195,7 @@ int main() {
         double media = calcular_media(tempos_execucao, NUM_EXECUCOES); // 
         double desvio = calcular_desvio_padrao(tempos_execucao, NUM_EXECUCOES, media); // 
 
-        // Salva a linha de resultado para este 'n' [cite: 96, 97]
+        // Salva a linha de resultado para este 'n' 
         fprintf(fp_resultados, "%d,%.6f,%.6f\n", n, media, desvio);
     }
 
