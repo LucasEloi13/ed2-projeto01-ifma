@@ -29,9 +29,10 @@ def construir_caminho_dados(tamanho: int, id_execucao: int, diretorio_base: Path
 
 
 def calcular_estatisticas(tempos: List[float]) -> Tuple[float, float]:
+    if not tempos:
+        return 0.0, 0.0
     media = statistics.mean(tempos)
     desvio = statistics.stdev(tempos) if len(tempos) > 1 else 0.0
-    
     return media, desvio
 
 
