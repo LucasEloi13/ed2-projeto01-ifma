@@ -8,11 +8,18 @@ import statistics
 
 
 def ler_vetor_csv(caminho_arquivo: Path) -> List[int]:
-    with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
-        leitor = csv.reader(arquivo)
-        linha = next(leitor)
-        vetor = [int(valor.strip()) for valor in linha]
-        return vetor
+    try:
+        with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
+            leitor = csv.reader(arquivo)
+            linha = next(leitor)
+            vetor = [int(valor.strip()) for valor in linha]
+            return vetor
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Arquivo não encontrado: {caminho_arquivo}") from e
+    except StopIteration as e:
+        raise ValueError(f"O arquivo {caminho_arquivo} está vazio ou mal formatado.") from e
+    except ValueError as e:
+        raise ValueError(f"Erro ao converter valores para inteiro no arquivo {caminho_arquivo}: {e}") from e
 
 
 def construir_caminho_dados(tamanho: int, id_execucao: int, diretorio_base: Path) -> Path:
