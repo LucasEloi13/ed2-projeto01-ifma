@@ -16,38 +16,24 @@ public class ExperimentoBusca {
     
     private final Path diretorioDados;
     
-    /**
-     * Inicializa o experimento.
-     * 
-     * @param diretorioDados Diretório onde estão os dados de entrada
-     */
+
+    // Inicializa o experimento.
     public ExperimentoBusca(Path diretorioDados) {
         this.diretorioDados = diretorioDados;
     }
     
-    /**
-     * Mede o tempo de execução da busca em milissegundos.
-     * 
-     * @param vetor Vetor onde será feita a busca
-     * @param valorBusca Valor a ser buscado
-     * @return Tempo de execução em milissegundos
-     */
+    
+    // Mede o tempo de execução da busca em milissegundos.
     public double medirTempoExecucao(int[] vetor, int valorBusca) {
         long inicio = System.nanoTime();
         BuscaLinear.buscar(vetor, valorBusca);
         long fim = System.nanoTime();
-        
-        // Retorna tempo em milissegundos
+
         return (fim - inicio) / 1_000_000.0;
     }
     
-    /**
-     * Executa o experimento para um tamanho de vetor específico.
-     * 
-     * @param tamanho Tamanho do vetor
-     * @param numExecucoes Número de execuções independentes
-     * @return Lista com os tempos de cada execução em milissegundos
-     */
+
+    // Executa o experimento para um tamanho de vetor específico.
     public List<Double> executarParaTamanho(int tamanho, int numExecucoes) {
         List<Double> tempos = new ArrayList<>();
         
@@ -59,13 +45,11 @@ public class ExperimentoBusca {
             );
             
             try {
-                // Lê o vetor do arquivo
                 int[] vetor = FileUtils.lerVetorCSV(caminhoArquivo);
                 
                 // Busca o último elemento (pior caso)
                 int valorBusca = vetor[vetor.length - 1];
-                
-                // Mede o tempo de execução
+            
                 double tempo = medirTempoExecucao(vetor, valorBusca);
                 tempos.add(tempo);
                 
@@ -79,13 +63,8 @@ public class ExperimentoBusca {
         return tempos;
     }
     
-    /**
-     * Executa o experimento completo para todos os tamanhos especificados.
-     * 
-     * @param tamanhos Array de tamanhos de vetor a serem testados
-     * @param numExecucoes Número de execuções por tamanho
-     * @return Lista de resultados
-     */
+
+    // Executa o experimento completo para todos os tamanhos especificados.
     public List<CSVWriter.Resultado> executarExperimentoCompleto(int[] tamanhos, int numExecucoes) {
         List<CSVWriter.Resultado> resultados = new ArrayList<>();
         
@@ -111,12 +90,8 @@ public class ExperimentoBusca {
         return resultados;
     }
     
-    /**
-     * Verifica quais arquivos de dados estão disponíveis.
-     * 
-     * @param tamanhos Array de tamanhos a verificar
-     * @return Map com informações sobre disponibilidade
-     */
+    
+    // Verifica quais arquivos de dados estão disponíveis.
     public Map<Integer, Integer> verificarDisponibilidadeDados(int[] tamanhos) {
         Map<Integer, Integer> info = new HashMap<>();
         

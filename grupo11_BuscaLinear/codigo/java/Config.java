@@ -34,7 +34,7 @@ public class Config {
     }
     
     /**
-     * Constrói o nome do arquivo para uma execução específica.
+    //  * Constrói o nome do arquivo para uma execução específica.
      * 
      * @param idExecucao ID da execução (1-50)
      * @return Nome do arquivo (ex: run_023.csv)

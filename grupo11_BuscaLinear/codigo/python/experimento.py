@@ -18,27 +18,10 @@ class ExperimentoBusca:
     """
     
     def __init__(self, funcao_busca: Callable, diretorio_dados: Path):
-        """
-        Inicializa o experimento.
-        
-        Args:
-            funcao_busca: Função de busca a ser testada
-            diretorio_dados: Diretório onde estão os dados de entrada
-        """
         self.funcao_busca = funcao_busca
         self.diretorio_dados = diretorio_dados
     
     def medir_tempo_execucao(self, vetor: List[int], valor_busca: Optional[int] = None) -> float:
-        """
-        Mede o tempo de execução da busca em milissegundos.
-        
-        Args:
-            vetor: Vetor onde será feita a busca
-            valor_busca: Valor a ser buscado. Se None, busca o último elemento.
-            
-        Returns:
-            Tempo de execução em milissegundos
-        """
         if valor_busca is None:
             # Pior caso: buscar o último elemento
             valor_busca = vetor[-1] if vetor else -1
@@ -47,21 +30,10 @@ class ExperimentoBusca:
         self.funcao_busca(vetor, valor_busca)
         fim = time.perf_counter()
         
-        # Retorna tempo em milissegundos
         tempo_ms = (fim - inicio) * 1000
         return tempo_ms
     
     def executar_para_tamanho(self, tamanho: int, num_execucoes: int = 50) -> List[float]:
-        """
-        Executa o experimento para um tamanho de vetor específico.
-        
-        Args:
-            tamanho: Tamanho do vetor
-            num_execucoes: Número de execuções independentes
-            
-        Returns:
-            Lista com os tempos de cada execução em milissegundos
-        """
         tempos = []
         
         for id_execucao in range(1, num_execucoes + 1):
@@ -72,10 +44,8 @@ class ExperimentoBusca:
             )
             
             try:
-                # Lê o vetor do arquivo
                 vetor = ler_vetor_csv(caminho_arquivo)
                 
-                # Mede o tempo de execução
                 tempo = self.medir_tempo_execucao(vetor)
                 tempos.append(tempo)
                 
@@ -89,16 +59,6 @@ class ExperimentoBusca:
         return tempos
     
     def executar_experimento_completo(self, tamanhos: List[int], num_execucoes: int = 50) -> List[Tuple[int, float, float]]:
-        """
-        Executa o experimento completo para todos os tamanhos especificados.
-        
-        Args:
-            tamanhos: Lista de tamanhos de vetor a serem testados
-            num_execucoes: Número de execuções por tamanho
-            
-        Returns:
-            Lista de tuplas (tamanho, tempo_médio_ms, desvio_padrão)
-        """
         resultados = []
         
         for tamanho in tamanhos:
@@ -116,15 +76,6 @@ class ExperimentoBusca:
         return resultados
     
     def verificar_disponibilidade_dados(self, tamanhos: List[int]) -> dict:
-        """
-        Verifica quais arquivos de dados estão disponíveis.
-        
-        Args:
-            tamanhos: Lista de tamanhos a verificar
-            
-        Returns:
-            Dicionário com informações sobre disponibilidade
-        """
         info = {}
         
         for tamanho in tamanhos:
