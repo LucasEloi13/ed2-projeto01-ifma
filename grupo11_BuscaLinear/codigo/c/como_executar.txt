@@ -1,0 +1,94 @@
+=======================================================
+MANUAL DE EXECUÇÃO - TESTE BUSCA LINEAR (LINGUAGEM C)
+=======================================================
+
+Este guia descreve o passo-a-passo para compilar e executar
+corretamente o programa de teste da Busca Linear em C,
+garantindo que os arquivos de dados sejam encontrados e
+os resultados sejam salvos no local correto.
+
+-------------------------------------------------------
+IMPORTANTE: DIRETÓRIO DE EXECUÇÃO
+-------------------------------------------------------
+Todos os comandos listados abaixo DEVEM ser executados 
+a partir do DIRETÓRIO RAIZ do seu projeto (a pasta 
+`grupoXX_algoritmo/`).
+
+Esta é a única forma de garantir que os caminhos relativos 
+(como "dados/..." e "resultados/...") funcionem.
+
+
+=======================================================
+PASSO A PASSO
+=======================================================
+
+-------------------------------------------------------
+PASSO 1: Gerar os Arquivos de Dados (Se ainda não o fez)
+-------------------------------------------------------
+O programa C precisa ler os arquivos .csv para executar. 
+Se a pasta `dados/` estiver vazia, execute o gerador primeiro.
+
+1a. Dê permissão de execução (só na primeira vez):
+chmod +x executar_gerador.sh
+
+1b. Execute o script para gerar os 500 arquivos de dados:
+./executar_gerador.sh
+
+
+-------------------------------------------------------
+PASSO 2: Compilar o Programa C (busca_linear.c)
+-------------------------------------------------------
+Este comando irá ler o arquivo `codigo/c/busca_linear.c` e
+criar o arquivo executável `busca_linear` dentro da pasta `codigo/c/`.
+
+2a. Execute o compilador (a partir da raiz):
+gcc -o codigo/c/busca_linear codigo/c/busca_linear.c -Wall -lm
+
+
+-------------------------------------------------------
+PASSO 3: Executar o Programa de Teste
+-------------------------------------------------------
+Este comando irá rodar o executável que você acabou de criar.
+O programa irá ler os 500 arquivos da pasta `dados/`,
+calcular as médias e salvar o resultado.
+
+3a. Execute o programa (a partir da raiz):
+./codigo/c/busca_linear
+
+3b. Acompanhe a saída no terminal. Você deverá ver:
+Iniciando experimentos para Busca Linear em C...
+Processando para N = 10000...
+Processando para N = 20000...
+...
+Processando para N = 100000...
+Experimentos em C concluídos. Resultados salvos em:
+resultados/estatisticas/resultados_C.csv
+
+
+-------------------------------------------------------
+PASSO 4: Verificar o Arquivo de Saída
+-------------------------------------------------------
+Após a execução terminar, verifique se o arquivo de 
+resultados foi criado corretamente.
+
+4a. Use o comando `cat` para ver o conteúdo do arquivo:
+cat resultados/estatisticas/resultados_C.csv
+
+4b. A saída deve ser um CSV com 11 linhas (1 cabeçalho + 10 linhas de dados, uma para cada 'n'), parecido com isto:
+
+n,tempo_ms,desvio
+10000,x.xxxxxx,y.yyyyyy
+20000,x.xxxxxx,y.yyyyyy
+30000,x.xxxxxx,y.yyyyyy
+40000,x.xxxxxx,y.yyyyyy
+50000,x.xxxxxx,y.yyyyyy
+60000,x.xxxxxx,y.yyyyyy
+70000,x.xxxxxx,y.yyyyyy
+80000,x.xxxxxx,y.yyyyyy
+90000,x.xxxxxx,y.yyyyyy
+100000,x.xxxxxx,y.yyyyyy
+
+(Onde x.xxxxxx e y.yyyyyy serão os tempos médios e desvios 
+calculados).
+
+Se você chegou aqui, o teste da linguagem C foi concluído com sucesso.
